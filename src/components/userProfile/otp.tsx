@@ -5,15 +5,18 @@ import { checkOtp, login } from "../../services/userServices";
 import { useEffect } from "react";
 import { Progress } from "antd";
 import { useHistory } from "react-router";
+import { useDispatch } from "react-redux";
 
 function Demo() {
   const [value, setValue] = React.useState("");
   let [count, setCount] = useState(Number);
 
+  let dispatch = useDispatch();
+
   const history = useHistory();
   let c: any = 0;
   useEffect(() => {
-    checkOtp(value).then((res) => console.log("res  ", res));
+    // checkOtp(dispatch , value).then((res) => console.log("res  ", res));
     countdownTimer();
   }, []);
 
@@ -32,7 +35,8 @@ function Demo() {
 
   const sendOtp = (e: any) => {
     e.preventDefault();
-    checkOtp(value).then((res) => {
+    checkOtp(dispatch, value).then((res) => {
+      localStorage.setItem("token", res.data.token);
       history.push("/chat-screen");
     });
   };

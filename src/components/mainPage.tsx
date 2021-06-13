@@ -3,23 +3,30 @@ import { useState } from "react";
 import "../css/mainPage.css";
 import LoginForm from "./login";
 import SignUpForm from "./signup";
+import { message, Button } from "antd";
 
 const MainPage = () => {
   const [form, setForm] = useState("login");
 
   const displayForm = useSelector((state: any) => {
-    console.log(state);
     return state.form.formDisplay;
   });
 
-  
+  const alert = (msg: string , type:string) => {
+    type=== "success" ? message.success(msg, 3) : message.error(msg, 3);
+  };
+
 
   return (
     <div className="main-div">
       <div className="main-page">
-        <div className="main-form">
-          {displayForm === "LOGIN_FORM" ? <LoginForm /> : <SignUpForm />}
-        </div>
+        {/* <div className="main-form"> */}
+        {displayForm === "LOGIN_FORM" ? <LoginForm alert={alert}/> : <SignUpForm alert={alert}/>}
+        {/* </div> */}
+        <h1 className="main-title-heading">
+          Chat <div className="main-title-heading-hub"> Hub </div>
+        </h1>
+        <h5>Connecting dil k taar...</h5>
         <img
           className="image-div"
           src="https://applian.com/img/login.svg"

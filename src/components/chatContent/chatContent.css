@@ -152,3 +152,7 @@
   background-color: #3b5bfe;
   color: #fff;
 }
+.last-seen{
+  /* float: right !important; */
+  color:rgb(173, 173, 173)
+}

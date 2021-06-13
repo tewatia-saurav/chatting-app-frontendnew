@@ -1,41 +1,46 @@
+import { useEffect } from "react";
 import { useDispatch } from "react-redux";
+import { setSelectedUser } from "../../redux/actions";
 import { getChats } from "../../services/chatServices";
 import Avatar from "./Avatar";
 function ChatListItem(props: any) {
-
   const dispatch = useDispatch();
-  const selectChat = (e: any) => {
 
-    
-    getChats(["saurav","rutu"], dispatch)
-    for (
-      let index = 0;
-      index < e.currentTarget.parentNode.children.length;
-      index++
-    ) {
-      e.currentTarget.parentNode.children[index].classList.remove("active");
-    }
-    e.currentTarget.classList.add("active");
+  const selectChat = (e: any, username: string) => {
+    e.preventDefault();
+    getChats(dispatch, username);
+
+    dispatch(
+      setSelectedUser({
+        firstName: props.firstName,
+        lastName: props.lastName,
+        username: props.username,
+        profileImage: props.image,
+        active : props.isOnline === "active" ? true : false,
+        lastSeen : props.lastSeen
+      })
+    );
   };
-
+  // console.log("rendered with values : ", props)
   return (
     <div
       style={{ animationDelay: `0.${props.animationDelay}s` }}
-      onClick={selectChat}
+      onClick={(e: any) => selectChat(e, props.username)}
       className={`chatlist__item ${props.active ? props.active : ""} `}
-      
     >
       <Avatar
-        image={props.image ? props.image : "http://placehold.it/80x80"}
+        image={props.image}
         isOnline={props.isOnline}
       />
 
       <div className="userMeta">
-        <p>{props.name}</p>
-        <span className="activeTime">32 mins ago</span>
+        <p>
+          {props.firstName} {props.lastName}
+        </p>
+        <span className="activeTime">{props.username}</span>
       </div>
     </div>
   );
 }
 
-export default ChatListItem
+export default ChatListItem;
